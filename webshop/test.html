@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webshop Példa</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Üdvözöljük a Webshopunkban</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Termékek</a></li>
+                <li><a href="#">Kosár</a></li>
+                <li><a href="https://www.eredmenyek.com/foci/spanyolorszag/laliga/tabella/#/SbZJTabs/table/overall" target="_blank">Tabella</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="product">
+            <img src="real madrid.PNG" alt="Termék 1">
+            <h2>Real Madrid Hazai mez</h2>
+            <p>XS / S / M / L / XL</p>
+            <p class="price">Ár: 15.990FT</p>
+            <button type="button" class="add-to-cart" data-product="Real Madrid Hazai mez" data-price="15990">Kosárba</button>
+        </section>
+
+        <!-- Ismételje meg ezt a struktúrát az összes termék esetében -->
+
+    </main>
+
+    <aside class="cart">
+        <h2>Kosár</h2>
+        <ul id="cart-items">
+            <!-- A kosárban lévő termékek itt lesznek megjelenítve -->
+        </ul>
+        <p id="total-price">Összesen: 0FT</p>
+    </aside>
+
+    <footer>
+        <p>&copy; 2023 Webshop Példa</p>
+    </footer>
+
+    <script>
+        // Kosár tartalmát tároló tömb
+        const cartItems = [];
+
+        // Termék hozzáadása a kosárhoz
+        function addToCart(product, price) {
+            cartItems.push({ product, price });
+            updateCart();
+        }
+
+        // Kosár frissítése
+        function updateCart() {
+            const cartList = document.getElementById("cart-items");
+            const totalPrice = document.getElementById("total-price");
+
+            // Töröljük a korábbi kosár tartalmat
+            while (cartList.firstChild) {
+                cartList.removeChild(cartList.firstChild);
+            }
+
+            // Újra létrehozzuk a kosár tartalmat
+            let total = 0;
+            for (const item of cartItems) {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${item.product} - ${item.price}FT`;
+                cartList.appendChild(listItem);
+                total += item.price;
+            }
+
+            // Frissítjük az összegző információt
+            totalPrice.textContent = `Összesen: ${total}FT`;
+        }
+
+        // Kosárba gombok eseményfigyelői
+        const addToCartButtons = document.querySelectorAll(".add-to-cart");
+        addToCartButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const productName = this.getAttribute("data-product");
+                const productPrice = parseInt(this.getAttribute("data-price"));
+                addToCart(productName, productPrice);
+            });
+        });
+    </script>
+</body>
+</html>
